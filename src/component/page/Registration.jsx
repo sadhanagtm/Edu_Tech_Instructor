@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { IoMdRocket } from "react-icons/io";
 import { FaRocket } from "react-icons/fa6";
 import { number } from "yup";
 import axios from "../../Hoc/Axios";
@@ -43,24 +44,25 @@ function Registration() {
   const Navigate=useNavigate()
   
   return (
-    <div className="h-screen w-full m-auto box flex ">
+    <div className="sm:h-screen  w-full  box lg:flex ">
       <Toaster />
-      <div className="flex  text-4xl text-white relative top-24 left-52 ">
-        <div className=" animate-bounce   h-32 ">
-          <FaRocket />
+     
+      <div className=" text-white  lg:w-2/4 s sm:m-auto  flex flex-col justify-center items-center ">
+        <div className="flex gap-2 mt-4 sm:mt-24 lg:mt-0">
+        <div className="sm:text-4xl text-2xl font-semibold pt-4  "> Welcome to</div>
+        <div className=" animate-bounce mt-5   ">
+        <IoMdRocket className="h-8 w-8"/>
         </div>
-      </div>
-
-      <div className=" text-white  w-2/4 relative top-32 left-28 ">
-        <div className="text-4xl font-semibold "> Welcome to</div>
+        </div>
      <div>
-      <img src="/src/image/Lopho.png" className="w-48 mt-3"/>
+      <img src="/src/image/Lopho.png" className="w-48 sm:h-14 h-12 sm:mt-3"/>
      </div>
         
-      </div>
+       </div>
 
-      <div className=" bg-gray-100 h-5/6 w-11/12  m-auto  relative right-10">
-        <div className=" flex justify-center mt-14 text-4xl font-semibold">
+<div className="w-full  ">
+      <div className=" bg-gray-100 h-fit sm:h-100 mx-3 sm:mx-8 sm:mt-20     rounded-xl   relative bottom-3  lg:top-5 lg:right-10">
+        <div className=" flex justify-center mt-9 sm:pt-8 pt-6 sm:text-4xl text-2xl font-semibold">
           Registration Form
         </div>
 
@@ -103,11 +105,11 @@ function Registration() {
 {({ handleSubmit, setFieldValue, values }) => {
         
           return(
-
+       <div className=" mx-5 ">
           <Form
           // key={i}
           onSubmit={handleSubmit}
-          className=" grid grid-cols-2 gap-5 w-11/12 m-auto mt-9 ">
+          className=" sm:grid sm:grid-cols-2 gap-5 flex flex-col mt-6 sm:mt-10 ">
            
             <div className="flex flex-col">
             <input
@@ -204,19 +206,20 @@ function Registration() {
             
             type="submit"
             value={"Register"}
-            className="font-semibold h-12 w-36 bg-primary   text-white text-center rounded-2xl cursor-pointer focus:bg-green-800"
+            className="font-semibold sm:h-12 h-10 w-36 mb-5 bg-primary   text-white text-center rounded-2xl cursor-pointer focus:bg-green-800"
            
             />
 
             
             
           </Form>
+          </div>
           );
          }}
 
         </Formik>
       </div>
-
+      </div>
 
 
 

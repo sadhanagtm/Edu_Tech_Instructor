@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Table from "../page component/Table";
-import axiosinstance from "../../Hoc/Axios";
-
+import Table from "../../page component/Table";
+import axiosinstance from "../../../Hoc/Axios";
 import { MdDelete } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { FaMessage } from "react-icons/fa6";
+import Replybox from "../Message/Replybox";
 
 
 
 function Courses() {
+
+  const[show,setShow]=useState(false)
   const columns = [
     { name: "Name",sortable: true, 
        cell:(row)=>{
@@ -24,10 +27,9 @@ function Courses() {
        },
 
 
-
     selector: (row) => row.name },
 
-    { name: "Image",sortable: true, cell: (row) =>{
+    { name:"Image",sortable: true, cell:(row) =>{
         let image=`${import.meta.env.VITE_API_URL}/public/${row.image}`
    return  <div className="h-8 w-8">
       <img src={image} />
@@ -43,25 +45,33 @@ function Courses() {
     { name: "Tags", id:"7", sortable: true, selector: (row) => row.tags },
 
      {
-       name: "Action",
+      name: "Action",
        cell: (row) => (
-         <div className="gap-4 flex items-center justify-center text-xl ">
-          <Link to={'/editform'}>
+         <div className=" flex items-center justify-center gap-4 text-xl ">
+          <Link to={'/editform'} state={{
+            id:row.id
+          }}>
            <button
-             className="  "
-             onClick={handleEdit}
-             id={row.ID}
+             className="  " 
+            
+             id={row.id}
            >
             <MdModeEdit />
            </button>
            </Link>
+           
+
            <button
-             className=" "
-             onClick={handleEdit}
-             id={row.ID}
+
+on onClick={()=>setShow(true)} 
+             className="  " 
+            
+             id={row.id}
            >
-             <MdDelete />
+            <FaMessage className="h-4 w-4" />
            </button>
+           {show && <Replybox onClose={()=>setShow(false)}/>}
+
          </div>
        ),
       selector: (row) => row.action,
@@ -71,7 +81,6 @@ function Courses() {
   const [Course, setcourse] = useState([]);
   const [filter, setFilter] = useState([]);
   const [query, setQuery] = useState('');
-
 
 
   const getdata = (id) => {
@@ -99,20 +108,9 @@ function Courses() {
   const data = [ ];
 
   const handleEdit = () => {
-    // const newName = prompt("Enter the new name:", name);
-    // if (newName !== null && newName !== "") {
-    //   setName(newName);
-    // }
+  
   };
-  const handleDelete = () => {
-    // const confirmDelete = window.confirm(
-    //   "Are you sure you want to delete this name?"
-    // );
-    // if (confirmDelete) {
-    //   setName("");
-    // }
-  };
-
+ 
 
   console.log(Course);
 
@@ -133,28 +131,21 @@ setQuery(getSearch);
   }
 
   return (
-    <div className="ml-60">
+    <div className=" lg:ml-60">
     
-    <div className=" mt-20">
-        <input type="text" name="name" value={query} className=" border-2 border-black  rounded" onChange={(e)=>handlesearch(e)} placeholder="search here"/>
+    <div className=" mt-24">
+        <input type="text" name="name" value={query} className=" border-2 border-gray-700 mx-3 sm:w-64 pl-3 h-8 rounded-xl outline-none" onChange={(e)=>handlesearch(e)} placeholder="Search here"/>
       </div>
 
 
      <Link to={"/Addcourse"}>
-      <div className="  top-20 right-10 absolute">
-        <button className="h-10 w-24 bg-red-700 text-white text-lg font-semibold  rounded-md ">Add New</button>
+      <div className="  top-24 lg:right-10 right-4 absolute">
+        <button className=" h-8 lg:h-10 w-24 bg-red-700 shadow-2xl text-white text-lg font-semibold  rounded-md ">Add New</button>
       </div>
      </Link>
 
       {Course && <Table data={Course} columns={columns} />}
-      <div className=" text-xl ">
-        <button onClick={handleEdit}>
-          {/* <MdOutlineEditNote /> */}
-        </button>
-        <button onClick={handleDelete}>
-          {/* <RiDeleteBin5Fill /> */}
-        </button>
-      </div>
+      
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react'
 
 function DashBaord() {
   return (
-    <div>sds</div>
+    <div></div>
   )
 }
 

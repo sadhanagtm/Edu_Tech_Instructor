@@ -7,31 +7,20 @@
     
     
 }
-.img-display-before{
+/* .img-display-before{
     height: 7rem;
     width: 7rem;
 
-}
+} */
 
-.img-display-after{
+/* .img-display-after{
     height: 7rem;
     width: 7rem;
     border-radius: 100%;
-}
+} */
 
  
- .item-list:hover{
-    padding-left: 1rem;
-    background-color:#098276;
-    width: auto;
-    height: 33px;
-    display: flex;
-    flex-direction: row;
-align-items: center;
-    text-align: center;
-    border-radius: 20px;
-    
- }
+
 
   
  

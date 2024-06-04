@@ -7,7 +7,7 @@ console.log(data)
   return (
 
     
-    <div className="container mt-5 w-full ">
+    <div className="container mt-8 w-full ">
       
       <DataTable
         columns={columns}

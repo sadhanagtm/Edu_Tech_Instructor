@@ -5,7 +5,8 @@ import React, { useEffect ,useState} from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../component/page/Sidebar';
-import Profile from '../component/Toolbar/Profile';
+import Toolbar from '../component/Toolbar/Toolbar';
+
 
 function Layout() {
   
@@ -28,11 +29,11 @@ function Layout() {
 
   return (
     <div className='flex w-full'>
-      <div className='w-fit'>
+      <div className='w-fit hidden lg:visible lg:block '>
       <Sidebar/>
 </div> 
  <div className='w-full relative'>
-      <Profile/> 
+      <Toolbar/> 
       
        <div className=' '>
 

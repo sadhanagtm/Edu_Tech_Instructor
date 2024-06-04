@@ -5,13 +5,13 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Basicinfo from '../page component/BasicInfo';
-import Addreess from '../page component/Addreess';
-import LegalInfo from '../page component/LegalInfo';
-import LegalDoc from '../page component/LegalDoc';
-const steps = ['Basic Details',  'Address' ,"Legal Info","Legal DOC"];
+import Basicinfo from '../KYCverification/BasicInfo';
+import Addreess from '../KYCverification/Addreess';
+import LegalInfo from '../KYCverification/LegalDoc';
+import LegalDoc from '../KYCverification/LegalInfo';
+const steps = ['Basic Details',  'Address' ,'Legal Info','Legal DOC'];
 
- function KYCverification() {
+ function KYCform() {
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -62,8 +62,8 @@ const steps = ['Basic Details',  'Address' ,"Legal Info","Legal DOC"];
   };
 
   return (
-    <Box  className=" flex flex-col justify-center   " sx={{ width: "60%",height:"40%", margin:"auto",  mt:16,borderRadius:"10px",backgroundColor:"white", border:" ",  boxShadow: "0px 0px 8px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" }}   >
-      <Stepper className='  bg-ternary rounded-t-xl m-0  text-white relative z-0  p-6 h-16 ' activeStep={activeStep}>
+    <Box  className="  lg:ml-56 flex flex-col justify-center w-full lg:w-10/12 bg-black lg:mt-20 mt-16   " sx={{ height:"40%" ,borderRadius:"10px",backgroundColor:"white",   boxShadow: "0px 0px 8px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" }}   >
+      <Stepper className='  lg:rounded-t-lg  bg-stone-300  text-white  p-4 h-16 ' activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
@@ -89,12 +89,12 @@ const steps = ['Basic Details',  'Address' ,"Legal Info","Legal DOC"];
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} />
-           
-            <Button onClick={handleReset}
-             sx={{  mx:16 ,my:3, bgcolor:"#68428A", width:"16%", height:"40px", borderRadius:"20px",color:"black"  }}>Reset</Button>
-             <Button onSubmit={handleSubmit}
-               sx={{ mx:16,my:3, bgcolor:"#68428A", width:"16%", height:"40px", borderRadius:"20px" ,color:"black" }}>Submit</Button>
-             
+           <div className='flex justify-center items-center mx-12 gap-10 lg:mr-5'>
+            <Button onClick={handleReset}className='sm:w-32 w-24  '
+             sx={{  my:3, bgcolor:"#68428A",  height:"40px", borderRadius:"20px",color:"black"  }}>Reset</Button>
+             <Button onSubmit={handleSubmit} className='sm:w-32 w-24 '
+               sx={{ my:3, bgcolor:"#68428A",  height:"40px", borderRadius:"20px" ,color:"black" }}>Submit</Button>
+             </div>
           </Box>
         </React.Fragment>
       ) : (
@@ -110,32 +110,33 @@ const steps = ['Basic Details',  'Address' ,"Legal Info","Legal DOC"];
               
               disabled={activeStep === 0}
               onClick={handleBack}
-              sx={{ mx: 8,mb:3, backgroundColor:"gray", width:"16%", height:"40px", borderRadius:"20px" ,color:"black" }}
+            
+              sx={{ mx:5, mb:3, backgroundColor:"gray", height:"40px", borderRadius:"20px" ,color:"black" }}
 
-              className=''
+              className=' sm:w-32 w-16'
             >
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr:28, width:"16%", borderRadius:"20px", backgroundColor:"lightgreen" ,mb:3}}>
+              <Button color="inherit" onClick={handleSkip} className='w-32 item-center flex justify-center' sx={{  borderRadius:"20px", backgroundColor:"lightgreen" ,mb:3}}>
                 Skip
               </Button>
             )}
 
             {/* <Button onClick={handleNext} 
-             sx={{ h:8,width:"16%", color:"black" , borderRadius:"20px", bgcolor:"#68428A" ,mx:8,mb:3  }}
+             sx={{ h:8, color:"black" , borderRadius:"20px", bgcolor:"#68428A" ,mx:8,mb:3  }}
             >
 
              
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
+            </Button> */}
 
-             */}
+            
           </Box>
         </React.Fragment>
       )}
     </Box>
   );
 }
-export default KYCverification
+export default KYCform

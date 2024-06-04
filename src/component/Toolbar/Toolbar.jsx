@@ -1,23 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import { IoMailUnreadSharp, IoMenuOutline } from "react-icons/io5";
-import { MdOutlineHome, MdOutlineVerified } from "react-icons/md";
-import { IoPerson } from "react-icons/io5";
-import { FaSearch } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { CgProfile } from "react-icons/cg";
-import { FaRegEdit } from "react-icons/fa";
-import { FiSettings, FiHelpCircle, FiLogOut } from "react-icons/fi";
-import { MdOutlineForwardToInbox } from "react-icons/md";
-import { IoNotifications } from "react-icons/io5";
-import { FaAngleDown } from "react-icons/fa6";
+import React, { useRef, useState } from 'react'
+import { IoMailUnreadSharp, IoMenu, IoNotifications, IoSearchOutline } from 'react-icons/io5'
+import { RxCross2 } from 'react-icons/rx'
+import Sidebar from '../page/Sidebar';
+import { FaAngleDown, FaSearch } from 'react-icons/fa';
+import { CgProfile } from 'react-icons/cg';
+import { MdOutlineForwardToInbox, MdOutlineVerified } from 'react-icons/md';
+import { FiLogOut, FiSettings } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+import { Search } from '@mui/icons-material';
+import { CiSearch } from 'react-icons/ci';
 
-function Profile() {
-  const [open, setOpen] = useState(false);
+function Toolbar() {
+const [isShow,setIsShow]=useState(false);
+const toggleMenu = () => {
+  setIsShow(!isShow);
+};
+
+const [open, setOpen] = useState(false);
   const divRef = useRef();
   const buttonRef = useRef();
-  // const imgRef = useRef();
-  
-  
   window.addEventListener("click", (e) => {
     if (e.target !== divRef.current && e.target !== button.current) {
       setOpen(false);
@@ -28,29 +29,43 @@ function Profile() {
   const handleButtonClick = () => {
     buttonRef.current.click();
   };
-  // const handleButtonChange = () => {
-  //   const file = event.target.files[0];
-  //   console.log(file);
-  //   setButton(event.target.files[0]);
-  // };
-
+  const handleButtonChange = () => {
+    const file = event.target.files[0];
+    console.log(file);
+    setButton(event.target.files[0]);
+  };
 
   return (
-    <>
-      <div className="bg-primary h-16 w-full fixed  z-10 ">
-        <div className=" flex text-center justify-end items-center  gap-8  relative top-3  right-4">
+    <div>
+     <div className=' bg-primary h-16 w-full fixed z-20 '   >
+     <div className='flex justify-between   '>
+      
+      <img src={"/src/image/Lopho.png"} alt='image' className=' z-10  h-14 mx-2   w-40   '/> 
+      
+      <button onClick={toggleMenu} className='py-3  px-2 lg:hidden '>
+        {
+          isShow?(
+            <RxCross2 className='text-white h-11 w-12 animate-pulse hover:bg-zinc-300 hover:text-black hover:rounded-xl'/>
+          ):(
+          <IoMenu  className='text-white h-11 w-12  hover:bg-zinc-300 hover:text-black hover:rounded-xl' />
+        )}
+     </button>
+     { isShow && <Sidebar onClose={()=>setIsShow(false)}/>} 
+
+
+     <div className="  hidden lg:flex text-center justify-end items-center  gap-5 mx-3 mt-3 ">
           
-          <div className="text-black h-9 text-2xl bg-white rounded-2xl flex justify-center items-center border-2 gap-5">
+          <div className="text-black h-9 text-2xl bg-white rounded-2xl flex  items-center border-2 gap-2">
            
-            <div className="mx-3">
-              <FaSearch />
-            </div>
             <input
             type="text"
-            className="outline-none border-none text-black rounded-2xl  "
-            placeholder="Search here"
+            className="  outline-none border-none text-base pl-4  text-black rounded-xl  "
+            placeholder="Search...."
             
             />
+            <div className=" mx-2 hidden lg:block">
+              <IoSearchOutline className='text-center font-semibold'/>
+            </div>
           </div>
 
 <IoNotifications className="h-7 w-7 text-white" />
@@ -78,7 +93,7 @@ function Profile() {
         </div>
       </div>
       {open && (
-        <div ref={divRef} className="h-80 w-60 my-16 bg-gray-100 shadow-xl float-end absolute z-10  right-0 transition ease-in-out delay-150 hover:translate-y-1 hover:scale-100 hover: duration-300 ...">
+        <div ref={divRef} className="h-80 w-60 my-3 bg-gray-100 shadow-xl float-end absolute z-10  right-0 transition ease-in-out delay-150 hover:translate-y-1 hover:scale-100 hover: duration-300 ...">
         
           <div className=" text-black">
             <div className=" text-center my-4">
@@ -107,7 +122,7 @@ function Profile() {
                 Settings
               </div>
 
-              <Link to={'kycverification'}>
+              <Link to={'kycform'}>
               <div className="flex gap-6 ">
               <MdOutlineVerified className="text-2xl" />
                 KYC Form
@@ -126,8 +141,11 @@ function Profile() {
           </div>
         </div>
       )}
-    </>
-  );
+     </div>
+
+     </div>
+    
+  )
 }
 
-export default Profile;
+export default Toolbar

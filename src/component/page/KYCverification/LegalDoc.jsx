@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { ErrorMessage, Formik,Form, Field } from "formik";
-import axios from "../../Hoc/Axios";
+import axios from "../../../Hoc/Axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import * as Yup from "yup";
@@ -75,11 +75,11 @@ function LegalDoc({handleNext}) {
     <div>
 <Toaster/>
 <Form onSubmit={handleSubmit}  >
-  <div className='flex justify-center gap-12  mt-14 '>
+  <div className='lg:flex lg:flex-row flex flex-col  gap-8 justify-center lg:gap-24  mt-9 '>
           {
             doc.map((val,i)=>{
               return(
-                 <div className=' flex justify-center '>
+                 <div className=' flex justify-center  '>
                  <div className=" flex flex-col  ">
                       <label className=" font-medium text-blue-700 text-center  ">
                         {val.label}
@@ -92,7 +92,7 @@ function LegalDoc({handleNext}) {
                             name="image"
                           />
                         ) : (
-                          <div className="h-48  w-48  border border-black border-dashed flex text-xl flex-col  justify-center text-center items-center text-gray-400 ">
+                          <div className="h-48  lg:w-64  w-48 border border-black border-dashed flex text-xl flex-col  justify-center text-center items-center text-gray-400 ">
                             <div className="text-5xl">
                               <IoCloudUploadSharp />
                             </div>
@@ -118,10 +118,9 @@ function LegalDoc({handleNext}) {
           }     
              </div> 
 
-
-             <div className=' flex justify-end mx-16 relative top-14' > 
-                <button type='submit' className='w-32  h-10 rounded-3xl   text-white bg-ternary'>
-               Next
+             <div className='  flex float-end mx-11  '>
+                <button type='submit' className=' sm:w-32 w-16  h-10 rounded-3xl relative top-14  text-center  text-white bg-ternary'>
+               NEXT
              </button>
              </div>
 

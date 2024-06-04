@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router';
-import axios from "../../Hoc/Axios";
+import axios from "../../../Hoc/Axios";
 
 import toast, { Toaster } from "react-hot-toast"
 import { Form, Formik } from 'formik';
@@ -54,10 +54,10 @@ onSubmit={(values) => {
       <Toaster/>
       
       
- <Form onSubmit={handleSubmit} className=" grid grid-cols-2 gap-5 mx-8 mt-12">
+ <Form onSubmit={handleSubmit} className=" sm:grid sm:grid-cols-2 gap-5 flex flex-col mx-7 mt-9">
   {address.map((val,i)=>{
     return(
-      <div className="flex flex-col">
+      <div className=" flex flex-col">
       <label className="px-2">
         {val.label}
       </label>
@@ -73,14 +73,11 @@ onSubmit={(values) => {
     </div>
     )
   })}
-                <div className=" flex justify-end  relative top-20 mx-10  ">
-                <button
-                  type="submit"
-                  className="w-32  h-10 rounded-3xl text-center text-white bg-ternary "
-                >
-                  NEXT
-                </button>
-              </div>
+              <div className=' flex justify-end items-end mx-3   '>
+                <button type='submit' className=' sm:w-32 w-16  h-10 rounded-3xl relative top-14  text-center  text-white bg-ternary'>
+               NEXT
+             </button>
+             </div>
               </Form>
               </div>
   )}}

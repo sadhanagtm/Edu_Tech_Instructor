@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { ErrorMessage, Formik, Form, Field } from "formik";
-import axios from "../../Hoc/Axios";
+import axios from "../../../Hoc/Axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import * as Yup from "yup";
@@ -138,7 +138,7 @@ function BasicInfo({ handleNext }) {
             <div>
               <Toaster />
               <Form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-2 gap-7 mx-8 mt-14">
+                <div className="sm:grid sm:grid-cols-2 gap-7 flex flex-col mx-7 mt-9">
                   {basic.map((val, i) => {
                     if (val.type === "date") {
                       return (
@@ -259,14 +259,11 @@ function BasicInfo({ handleNext }) {
                   })}
                 </div>
 
-                <div className=" flex justify-end  relative top-14  mx-12  ">
-                  <button
-                    type="submit"
-                    className="w-32  h-10 rounded-3xl text-center text-white bg-ternary "
-                  >
-                    NEXT
-                  </button>
-                </div>
+                <div className='  flex float-end mx-11   '>
+                <button type='submit' className=' sm:w-32 w-16  h-10 rounded-3xl relative top-14  text-center   text-white bg-ternary'>
+               NEXT
+             </button>
+             </div>
               </Form>
             </div>
           </>

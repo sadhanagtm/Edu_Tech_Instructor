@@ -13,7 +13,8 @@ export default {
         'primary':"#04413D",
         "secondary":"#798F85",
         "ternary":"#68428A",
-        "poly":"#440786"
+        "poly":"#440786",
+        "light":"#175150",
       },
 
       width:{
@@ -21,6 +22,8 @@ export default {
    '120':"30rem"
       }
     },
+
+   
   },
   plugins: [],
 }

@@ -1,24 +1,31 @@
 
-import { Field, Formik, Form } from "formik";
+import {  Formik, Form, ErrorMessage } from "formik";
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Description, Navigation } from "@mui/icons-material";
-import axios from "../../Hoc/Axios"
+import { Navigation } from "@mui/icons-material";
+import axios from "../../../Hoc/Axios";
 import JoditEditor from "jodit-react";
 import { RiVideoUploadLine } from "react-icons/ri";
-
-
-function Syallabus() {
+import * as Yup from "yup"
+const schema = Yup.object().shape({
+  
+  title: Yup.string().required("This field is required"),
+  subtitle: Yup.string().required("This field is required"),
+  description: Yup.string().required("This field is required"),
+  video: Yup.string().required("This field is required"),
+  
+});
+function Addsyallabus() {
   
   const [value, setFieldValue] = useState("");
- 
+  
   const [redirect, setredirect] = useState(false);
   const [placeholder, setplaceholder] = useState("enter description...");
 
   const editor = useRef(null);
   const [content, setContent] = useState("");
 
-
+  
   const videoRef = useRef(null);
 const handleVideoClick = () => {
   videoRef.current.click();
@@ -46,12 +53,13 @@ const handleVideoChange = () => {
     <div className="mt-20">
       <Formik
         initialValues={{
-          title: "",
-          subtitle: "",
+          title:"",
+          subtitle:"",
           description: "",
-
-          
+         video:"",
         }}
+       
+        validationSchema={schema}
         onSubmit={(values, { resetForm }) => {
           try {
             const formData = new FormData();
@@ -61,7 +69,7 @@ const handleVideoChange = () => {
             formData.append("video", values.video);
 
             axios
-              .post("/syllabus/", formData)
+              .post("/ /", formData)
               .then((res) => {
                 console.log(res);
                 toast.success("Post Successful");
@@ -87,52 +95,60 @@ const handleVideoChange = () => {
             <Form onSubmit={handleSubmit}>
               <Toaster />
 
-              <div className="ml-64 mt-16 ">
-                <div className=" flex gap-12 w-full">
+              <div className=" lg:ml-60 mt-24 mx-5 lg:mx-8 ">
+                <div className="sm:grid sm:grid-cols-2 gap-7 flex flex-col  ">
                   <div className="text-left">
                     <div className="text-lg font-medium text-purple-700 mb-2">
                       Title
                     </div>
                     <div>
-                      <Field
+                      <input
                         name="title"
                         type="text"
-                        className="outline-none h-10 w-[280px] outline-gray-200"
+                        className="outline-none h-10 w-full outline-gray-200"
                         onChange={(e) => {
                           setFieldValue("title", e.target.value);
                         }}
                       />
+                       <ErrorMessage
+                        name="title"
+                     component={"div"}
+                    className="text-red-600"
+                         />
                     </div>
-                  
+                  </div>
 
-                  
-                </div>
-
-
-                <div className="text-left">
+                  <div className="text-left">
                     <div className="text-lg font-medium text-purple-700 mb-2">
-                     Sub Title
+                      Subtitle
                     </div>
                     <div>
-                      <Field
+                      <input
                         name="subtitle"
                         type="text"
-                        className="outline-none h-10 w-[280px] outline-gray-200"
+                        className="outline-none h-10 w-full outline-gray-200"
                         onChange={(e) => {
                           setFieldValue("subtitle", e.target.value);
                         }}
                       />
+                       <ErrorMessage
+                        name="subtitle"
+                     component={"div"}
+                    className="text-red-600"
+                         />
                     </div>
-                    </div>
+                  </div>
+                  </div>
 
-                  
-                </div>
-               
-                  <div className="text-left mt-10  w-11/12">
+              
+                
+
+                  <div className="text-left mt-10  w-full">
                     <div className="text-lg font-medium text-purple-700 mb-2 ">
                       Description
                       
                       <JoditEditor
+                      
                         ref={editor}
                         value={content}
                        className="text-black"
@@ -143,11 +159,16 @@ const handleVideoChange = () => {
                             setFieldValue("description", e.target.value);
                         }}
                       />
+                       <ErrorMessage
+                        name="description"
+                     component={"div"}
+                    className="text-red-600 font-normal"
+                         />
                     </div>
                   </div>
 
-                  
-              <div className="mt-10 w-11/12">
+                  <div className=" mt-10 w-full">
+              <div className="">
                     <div className="text-lg  font-semibold  text-purple-700 mb-2">
                       Upload Course Video
                     </div>
@@ -157,7 +178,7 @@ const handleVideoChange = () => {
                         src={URL.createObjectURL(values.video)}
                         alt=""
                         name="video"
-                        className="width={1010} height={200}  bg-black controls={true} muted={true} loop={true} autoPlay={true}border border-black cursor-pointer"
+                        className="w-full height={200}  bg-black controls={true} muted={true} loop={true} autoPlay={true}border border-black cursor-pointer"
                         />
                       ) : (
                         <div className=" h-56 w-56 cursor-pointer  border border-black border-dashed flex text-xl flex-col  justify-center text-center items-center text-gray-400 ">
@@ -171,7 +192,7 @@ const handleVideoChange = () => {
                         name="video"
                         type="file"
                         ref={videoRef}
-                        className="width={1010} height={200} bg-black controls={true}  muted={true} loop={true} autoPlay={true} "
+                        className="w-full height={200} bg-black controls={true}  muted={true} loop={true} autoPlay={true} "
                         
                         
                         onChange={(e) => {
@@ -179,11 +200,18 @@ const handleVideoChange = () => {
                         }}
                         style={{ display: "none" }}
                       />
+                       <ErrorMessage
+                        name="video"
+                     component={"div"}
+                    className="text-red-600"
+                         />
                     </div>
                   </div>
-             
+                {/* <video src="/Videos/video.mp4"  width={1090} height={200}  controls={true}  muted={true} loop={true} autoPlay={true} className=" bg-black"/> */}
+              </div>
 
-                  <div className="text-left flex gap-5 my-8 ">
+
+                  <div className="text-left flex gap-6 my-5  ">
                     <button
                       onClick={() => {
                         Navigation(-1);
@@ -208,13 +236,15 @@ const handleVideoChange = () => {
       
         }}
       </Formik>
-     
-    </div>
+
+
+    </div> 
+    
 
   );
 }
 
-export default Syallabus;
+export default Addsyallabus;
         
 
 

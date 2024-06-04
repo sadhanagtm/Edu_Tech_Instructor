@@ -1,6 +1,6 @@
 import React from 'react'
 import { ErrorMessage, Formik,Form, Field } from "formik";
-import axios from "../../Hoc/Axios";
+import axios from "../../../Hoc/Axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import * as Yup from "yup";
@@ -56,14 +56,15 @@ function LegalInfo({handleNext}) {
       {({ handleSubmit, setFieldValue, values }) => {
         return(
 
-    <div>
+    <div >
      <Toaster/>
 
- <Form onSubmit={handleSubmit} className=" flex gap-8  w-full mx-16 mt-14">
+ <Form onSubmit={handleSubmit} >
+ <div className=" gap-7 flex flex-col sm:flex sm:flex-row mx-7 mt-9">
  {legal.map((val, i) => {
   
               return(
-                <div className="flex flex-col w-full ">
+                <div className= "flex flex-col w-full   ">
                   <label className="px-2">{val.label}</label>
                   <Field
                     name={val.name}
@@ -82,10 +83,10 @@ function LegalInfo({handleNext}) {
                 </div>
 
 ) } )} 
-               
+   </div>            
              
-             <div className='  relative top-20 right-36 my-1  '>
-                <button type='submit' className='w-32  h-10 rounded-3xl   text-center  text-white bg-ternary'>
+             <div className='  flex float-end mx-11'>
+                <button type='submit' className=' sm:w-32 w-16  h-10 rounded-3xl relative top-14  text-center  text-white bg-ternary'>
                NEXT
              </button>
              </div>

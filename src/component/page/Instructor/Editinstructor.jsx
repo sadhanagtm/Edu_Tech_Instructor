@@ -2,11 +2,11 @@ import { Field, Formik, Form } from "formik";
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Navigation } from "@mui/icons-material";
-import axios from "../Hoc/Axios";
+import axios from "../../../Hoc/Axios";
 import { IoCloudUploadSharp } from "react-icons/io5";
 import JoditEditor from "jodit-react";
 
-function Addinstructor() {
+function Editinstructor() {
   const [value, setFieldValue] = useState("");
   const inputRef = useRef(null);
   const [image, setImage] = useState("");
@@ -57,8 +57,7 @@ function Addinstructor() {
             formData.append("firstName", values.firstName);
             formData.append("lastName", values.lastName);
             formData.append("middleName", values.middleName);
-            formData.append("password", values.password);
-
+            formData.append("password",values.password);
             formData.append("email", values.email);
             formData.append("phone", values.phone);
             formData.append("image", values.image);
@@ -90,8 +89,8 @@ function Addinstructor() {
           return (
             <Form onSubmit={handleSubmit}>
               <Toaster />
-              <div className="ml-72  mt-12 ">
-                <div className=" grid grid-cols-3 gap-10 ">
+              <div className=" lg:ml-64 mt-24 mx-6 lg:mx-12 ">
+                <div className=" lg:grid lg:grid-cols-3  gap-10 flex flex-col sm:grid sm:grid-cols-2  ">
 
 
                 <div className="text-left">
@@ -102,8 +101,8 @@ function Addinstructor() {
                     <Field
                       name="firstName"
                       type="text"
-                      label="hehe"
-                      className="outline-none h-10 w-[250px] outline-gray-200"
+                     
+                      className="outline-none h-10 w-full outline-gray-200"
                       onChange={(e) => {
                         setFieldValue("firstName", e.target.value);
                       }}
@@ -119,8 +118,8 @@ function Addinstructor() {
                     <Field
                       name="lastName"
                       type="text"
-                      label="hehe"
-                      className="outline-none h-10 w-[250px] outline-gray-200"
+                      
+                      className="outline-none h-10 w-full outline-gray-200"
                       onChange={(e) => {
                         setFieldValue("lastName", e.target.value);
                       }}
@@ -136,8 +135,8 @@ function Addinstructor() {
                     <Field
                       name="middleName"
                       type="text"
-                      label="hehe"
-                      className="outline-none h-10 w-[250px] outline-gray-200"
+                     
+                      className="outline-none h-10 w-full outline-gray-200"
                       onChange={(e) => {
                         setFieldValue("middleName", e.target.value);
                       }}
@@ -153,8 +152,8 @@ function Addinstructor() {
                     <Field
                       name="password"
                       type="password"
-                      label="hehe"
-                      className="outline-none h-10 w-[250px] outline-gray-200"
+                     
+                      className="outline-none h-10 w-full outline-gray-200"
                       onChange={(e) => {
                         setFieldValue("password", e.target.value);
                       }}
@@ -170,8 +169,8 @@ function Addinstructor() {
                     <Field
                       name="email"
                       type="email"
-                      label="hehe"
-                      className="outline-none h-10 w-[250px] outline-gray-200"
+                      
+                      className="outline-none h-10 w-full outline-gray-200"
                       onChange={(e) => {
                         setFieldValue("email", e.target.value);
                       }}
@@ -187,8 +186,8 @@ function Addinstructor() {
                     <Field
                       name="address"
                       type="text"
-                      label="hehe"
-                      className="outline-none h-10 w-[250px] outline-gray-200"
+                    
+                      className="outline-none h-10 w-full outline-gray-200"
                       onChange={(e) => {
                         setFieldValue("address", e.target.value);
                       }}
@@ -204,8 +203,8 @@ function Addinstructor() {
                     <Field
                       name="phone"
                       type="number"
-                      label="hehe"
-                      className="outline-none h-10 w-[250px] outline-gray-200"
+                     
+                      className="outline-none h-10 w-full outline-gray-200"
                       onChange={(e) => {
                         setFieldValue("phone", e.target.value);
                       }}
@@ -215,8 +214,8 @@ function Addinstructor() {
 
                 </div>
 
-                <div className=" col-span-2 mt-10 grid grid-cols-1 justify-between">
-                  <div className="text-left mt-0">
+                
+                  <div className="text-left mt-10 ">
                     <div className="text-lg font-medium text-purple-700 mb-2">
                       Upload Image
                     </div>
@@ -224,12 +223,12 @@ function Addinstructor() {
                       {values.image ? (
                         <img
                           src={URL.createObjectURL(values.image)}
-                          className="h-48 w-48"
+                          className="h-52 w-52"
                           alt=""
                           name="image"
                         />
                       ) : (
-                        <div className="h-48  w-48  border border-black border-dashed flex text-xl flex-col  justify-center text-center items-center text-gray-400 ">
+                        <div className="h-52  w-52  border border-black border-dashed flex text-xl flex-col  justify-center text-center items-center text-gray-400 ">
                           <div className="text-5xl">
                             <IoCloudUploadSharp />
                           </div>
@@ -248,24 +247,10 @@ function Addinstructor() {
                     </div>
                   </div>
 
-                  {/* <div className="text-left mt-10 ">
-                    <div className="text-lg font-medium text-purple-700 mb-2 ">
-                      Description
-                   
-                      <JoditEditor
-                        ref={editor}
-                        value={content}
-                        // config={config}
-                        tabIndex={1} // tabIndex of textarea
-                        onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                        onChange={(newContent) => {
-                          setFieldValue("description", e.target.value);
-                        }}
-                      />
-                    </div>
-                  </div> */}
+                
+                    
 
-                  <div className="text-left flex gap-5 ">
+                  <div className="text-left flex gap-6 my-5 ">
                     <button
                       onClick={() => {
                         Navigation(-1);
@@ -284,7 +269,7 @@ function Addinstructor() {
                     </button>
                   </div>
                 </div>
-              </div>
+             
             </Form>
           );
         }}
@@ -293,4 +278,4 @@ function Addinstructor() {
   );
 }
 
-export default Addinstructor;
+export default Editinstructor;
