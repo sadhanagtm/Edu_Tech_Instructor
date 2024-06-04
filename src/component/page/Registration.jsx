@@ -55,6 +55,7 @@ function Registration() {
         </div>
         </div>
         <h1>hello ,i am mausu</h1>
+        <div>hello div added</div>
      <div>
       <img src="/src/image/Lopho.png" className="w-48 sm:h-14 h-12 sm:mt-3"/>
      </div>
