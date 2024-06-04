@@ -54,6 +54,7 @@ function Registration() {
         <IoMdRocket className="h-8 w-8"/>
         </div>
         </div>
+        <h1>hello ,i am mausu</h1>
      <div>
       <img src="/src/image/Lopho.png" className="w-48 sm:h-14 h-12 sm:mt-3"/>
      </div>
