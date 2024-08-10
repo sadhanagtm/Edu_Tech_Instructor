@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router';
 import axios from "../../../Hoc/Axios";
 
 import toast, { Toaster } from "react-hot-toast"
 import { Form, Formik } from 'formik';
+import { ClipLoader } from 'react-spinners';
 
 const address=[
   {name:"district", type:"text",placeholder:"",label:"District"},
@@ -15,6 +16,7 @@ const address=[
 
 function Addreess({handleNext}) {
   const Navigate =useNavigate()
+  const[loading,setLoading]=useState(false)
   return (
     <Formik
     initialValues={{
@@ -27,6 +29,7 @@ function Addreess({handleNext}) {
 
 // validationSchema={schema}
 onSubmit={(values) => {
+  setLoading(true)
  console.log(values);
      try {
        axios
@@ -34,16 +37,19 @@ onSubmit={(values) => {
          .then((res) => {
            console.log("user data", res);
            toast.success("Submit Successfully");
+           setLoading(false)
            handleNext()
 
-           // Navigate("/");
+           
          })
          .catch((error) => {
            console.log(error);
            toast.error("something went wrong");
+           setLoading(false)
          });
      } catch (error) {
        console.log(error);
+       setLoading(false)
      }
    }}
    >
@@ -52,7 +58,11 @@ onSubmit={(values) => {
   return (
     <div>
       <Toaster/>
-      
+      {loading && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+                  <ClipLoader size={50} color={"#123abc"} loading={loading} />
+                </div>
+              )}
       
  <Form onSubmit={handleSubmit} className=" sm:grid sm:grid-cols-2 gap-5 flex flex-col mx-7 mt-9">
   {address.map((val,i)=>{

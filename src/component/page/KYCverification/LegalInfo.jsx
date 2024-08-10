@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ErrorMessage, Formik,Form, Field } from "formik";
 import axios from "../../../Hoc/Axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import * as Yup from "yup";
+import { ClipLoader } from 'react-spinners';
 
 const schema=Yup.object().shape({
 panNo:Yup.string().required("This field is required"),
@@ -21,6 +22,7 @@ const legal=[
 ]
 
 function LegalInfo({handleNext}) {
+  const[loading,setLoading]=useState[false]
   const Navigate= useNavigate();
   return (
        <Formik
@@ -30,8 +32,9 @@ function LegalInfo({handleNext}) {
 
        }}
 
-  // validationSchema={schema}
+  validationSchema={schema}
    onSubmit={(values) => {
+    setLoading(true)
     console.log(values);
         try {
           axios
@@ -40,15 +43,18 @@ function LegalInfo({handleNext}) {
               console.log("user data", res);
               toast.success("Submit Successfully");
               handleNext()
+              setLoading(false)
 
-              // Navigate("/");
+              
             })
             .catch((error) => {
               console.log(error);
               toast.error("something went wrong");
+              setLoading(false)
             });
         } catch (error) {
           console.log(error);
+          setLoading(false)
         }
       }}
       >
@@ -58,6 +64,11 @@ function LegalInfo({handleNext}) {
 
     <div >
      <Toaster/>
+     {loading && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+                  <ClipLoader size={50} color={"#123abc"} loading={loading} />
+                </div>
+              )}
 
  <Form onSubmit={handleSubmit} >
  <div className=" gap-7 flex flex-col sm:flex sm:flex-row mx-7 mt-9">

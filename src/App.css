@@ -19,7 +19,13 @@
     border-radius: 100%;
 } */
 
- 
+ .charts{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:20px;
+    margin-top:90px;
+    height:450px;
+ }
 
 
   

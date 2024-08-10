@@ -1,135 +1,152 @@
-import React, { useRef, useState } from 'react'
-import { ErrorMessage, Formik,Form, Field } from "formik";
-import axios from "../../../Hoc/Axios";
-import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
-import * as Yup from "yup";
+import React, { useRef, useState } from 'react';
+import { ErrorMessage, Formik, Form, Field } from 'formik';
+import axios from '../../../Hoc/Axios';
+import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
+import * as Yup from 'yup';
 import { IoCloudUploadSharp } from 'react-icons/io5';
+import { ClipLoader } from 'react-spinners';
 
-const schema=Yup.object().shape({
-    citizenshipFront: Yup.string().required("Please upload your document "),
-    citizenshipBack:Yup.string().required("Please upload your document "),
-    
-}
-)
+const schema = Yup.object().shape({
+  citizenshipFront: Yup.string().required('Please upload your document '),
+  citizenshipBack: Yup.string().required('Please upload your document '),
+});
 
-const doc=[
-  {name:"citizenshipFront", type:"file", label:"Citizenship Front"},
-  {name:"citizenshipBack", type:"file", label:"Citizenship Back"},
-  {name:"passport", type:"file", label:"Passport"},
-]
+const doc = [
+  { name: 'citizenshipFront', type: 'file', label: 'Citizenship Front' },
+  { name: 'citizenshipBack', type: 'file', label: 'Citizenship Back' },
+  { name: 'passport', type: 'file', label: 'Passport' },
+];
 
-function LegalDoc({handleNext}) {
-  const Navigate=useNavigate();
+function LegalDoc({ handleNext }) {
+  const navigate = useNavigate();
+  const [images, setImages] = useState({});
+  const inputRefs = useRef({});
 
-  const[image,setImage]=useState()
-  const inputRef=useRef(null)
-   const handleImageClick=()=>{
-     inputRef.current.click();
-   }
- const handleImageChange=()=>{
-   const file = e.target.files[0];
-   console.log(file);
-   setImage( e.target.files[0]);
- }
+  const handleImageClick = (name) => {
+    inputRefs.current[name].click();
+  };
+
+  const handleImageChange = (e, name, setFieldValue) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setImages((prev) => ({ ...prev, [name]: file }));
+    setFieldValue(name, file);
+  };
+
   return (
     <Formik
-    initialValues={{
-      citizenshipFront:"",
-      citizenshipBack:"",
-      passport:"",
-    }}
+      initialValues={{
+        citizenshipFront: '',
+        citizenshipBack: '',
+        passport: '',
+      }}
+      validationSchema={schema}
+      onSubmit={(values, { resetForm }) => {
+        console.log(values);
+        try {
+          const formData = new FormData();
+          formData.append('citizenshipFront', values.citizenshipFront);
+          formData.append('citizenshipBack', values.citizenshipBack);
+          formData.append('passport', values.passport);
 
-    //  validationSchema={schema}
-     onSubmit={(values,{resetForm}) => {
-      console.log(values);
-      try {
-        const formData = new formData();
-        formData.append("citizenshipFront", values.citizenshipFront);
-        formData.append("citizenshipBack", values.citizenshipBack);
-        formData.append("passport", values.passport);
-        // formData.append("image", values.image);
-        axios
-          .post("/user/auth/ ", formData)
-          .then((res) => {
-            console.log("user data", res);
-            toast.success("Submit Successfully");
-            handleNext()
-
-            // Navigate("/");
-          })
-          .catch((error) => {
-            console.log(error);
-            toast.error("something went wrong");
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      console.log(values)
-      // resetForm();
-    }}
-    >
-  
-    {({ handleSubmit, setFieldValue, values }) => {
-      return(
-    <div>
-<Toaster/>
-<Form onSubmit={handleSubmit}  >
-  <div className='lg:flex lg:flex-row flex flex-col  gap-8 justify-center lg:gap-24  mt-9 '>
-          {
-            doc.map((val,i)=>{
-              return(
-                 <div className=' flex justify-center  '>
-                 <div className=" flex flex-col  ">
-                      <label className=" font-medium text-blue-700 text-center  ">
-                        {val.label}
-                      </label>
-                      <div onClick={handleImageClick} className='cursor-pointer'>
-                        {values.doc ? (
-                          <img
-                            src={URL.createObjectURL(values.name)}
-                            alt=""
-                            name="image"
-                          />
-                        ) : (
-                          <div className="h-48  lg:w-64  w-48 border border-black border-dashed flex text-xl flex-col  justify-center text-center items-center text-gray-400 ">
-                            <div className="text-5xl">
-                              <IoCloudUploadSharp />
-                            </div>
-                            <div>Click to upload</div>
-                          </div>
-                        )}
-                        <input
-                          name={val.name}
-                          type={val.type}
-                          ref={inputRef}
-                          onChange={(e) => {
-                            setFieldValue(val.name, e.target.files[0]);
-                          }}
-                          style={{ display: "none" }}
-                        />
-                      </div>
-                   <ErrorMessage name={val.name} component={"div"}
-                    className="text-red-600" />
-                    </div>
-              </div>
-              )
+          axios
+            .post('/user/auth/', formData)
+            .then((res) => {
+              console.log('user data', res);
+              toast.success('Submit Successfully');
+               resetForm();
+              handleNext();
+              setLoading(false)
             })
-          }     
-             </div> 
+            .catch((error) => {
+              console.log(error);
+              toast.error('Something went wrong');
+              setLoading(false)
+            });
+        } catch (error) {
+          console.log(error);
+          setLoading(false)
+        }
+        console.log(values);
+       
+      }}
+    >
+      {({ handleSubmit, setFieldValue, values }) => (
+        <div>
+          <Toaster />
+          {loading && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+                  <ClipLoader size={50} color={"#123abc"} loading={loading} />
+                </div>
+              )}
 
-             <div className='  flex float-end mx-11  '>
-                <button type='submit' className=' sm:w-32 w-16  h-10 rounded-3xl relative top-14  text-center  text-white bg-ternary'>
-               NEXT
-             </button>
-             </div>
+          <Form onSubmit={handleSubmit}>
+            <div className="lg:flex lg:flex-row flex flex-col gap-8 justify-center lg:gap-24 mt-9">
+              {doc.map((val) => (
+                <div key={val.name} className="flex justify-center">
+                  <div className="flex flex-col">
+                    <label className="font-medium text-blue-700 text-center">
+                      {val.label}
+                    </label>
+                    <div
+                      onClick={() => handleImageClick(val.name)}
+                      className="cursor-pointer"
+                    >
+                      {values[val.name] ? (
+                        <img
+                          src={URL.createObjectURL(values[val.name])}
+                          alt=""
+                          name="image"
+                          className='h-48 w-48  lg:h-64 object-contain lg:w-64 cursor-pointer  border-black border '
+                        />
+                      ) : (
+                        <div className="lg:h-64 lg:w-64 h-48 w-48 border border-black border-dashed flex text-xl flex-col justify-center text-center items-center text-gray-400">
+                          <div className="text-5xl">
+                            <IoCloudUploadSharp />
+                          </div>
+                          <div>Click to upload</div>
+                        </div>
+                      )}
+                      <input
+                        name={val.name}
+                        type={val.type}
+                        accept="image/*"
+                        ref={(el) => (inputRefs.current[val.name] = el)}
+                        onChange={(e) =>
+                          handleImageChange(e, val.name, setFieldValue)
+                        }
+                        style={{ display: 'none' }}
+                      />
+                    </div>
+                    <ErrorMessage
+                      name={val.name}
+                      component="div"
+                      className="text-red-600"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
 
-
-              </Form>
-    </div>
-  )}}
-  </Formik>
-  )
+            <div className="flex float-end mx-11">
+              <button
+                type="submit"
+                className="sm:w-32 w-16 h-10 rounded-3xl relative top-14 text-center text-white bg-ternary"
+              >
+                NEXT
+              </button>
+            </div>
+          </Form>
+        </div>
+      )}
+    </Formik>
+  );
 }
 
-export default LegalDoc
+export default LegalDoc;
+
+
+
+
+

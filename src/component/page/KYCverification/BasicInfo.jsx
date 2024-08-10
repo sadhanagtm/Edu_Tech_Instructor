@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import * as Yup from "yup";
 import { IoCloudUploadSharp } from "react-icons/io5";
+import { ClipLoader } from "react-spinners";
 
 const schema = Yup.object().shape({
   dob: Yup.string().required("This field is required"),
@@ -30,7 +31,7 @@ const basic = [
     option: ["Select gender", "Male", "Female"],
   },
   {
-    name: "maritalStatus",
+    name: "mariatalStatus",
     type: "select",
     label: "Marital Status",
     option: ["Select Status", "Married", "Unmarried"],
@@ -63,6 +64,7 @@ const basic = [
 
 function BasicInfo({ handleNext }) {
   const Navigate = useNavigate();
+  const[loading, setLoading]=useState(false)
 
   const [image, setImage] = useState();
   const inputRef = useRef(null);
@@ -80,7 +82,7 @@ function BasicInfo({ handleNext }) {
       initialValues={{
         dob: "",
         nationality: "",
-        maritalStatus: "",
+        mariatalStatus: "",
         fatherName: "",
         grandFatherName: "",
         occupation: "",
@@ -90,8 +92,9 @@ function BasicInfo({ handleNext }) {
         skills: "",
         cv: "",
       }}
-      // validationSchema={schema}
+      validationSchema={schema}
       onSubmit={(values, { resetForm }) => {
+        setLoading(true)
         console.log(values);
         try {
           const formData = new FormData();
@@ -99,7 +102,7 @@ function BasicInfo({ handleNext }) {
           formData.append("dob", values.dob);
           formData.append("nationality", values.nationality);
           formData.append("gender", values.gender);
-          formData.append("maritalStatus", values.maritalStatus);
+          formData.append("mariatalStatus", values.mariatalStatus);
           formData.append("fatherName", values.fatherName);
           formData.append("grandFatherName", values.grandFatherName);
           formData.append("occupation", values.occupation);
@@ -117,19 +120,23 @@ function BasicInfo({ handleNext }) {
             .then((res) => {
               console.log("user data", res);
               toast.success("Submit Successfully");
+               resetForm(); 
               handleNext();
+              setLoading(false)
 
-              // Navigate("/");
+              
             })
             .catch((error) => {
               console.log(error);
               toast.error("something went wrong");
+              setLoading(false)
             });
         } catch (error) {
           console.log(error);
+          setLoading(false)
         }
         console.log(values);
-        // resetForm();
+       
       }}
     >
       {({ handleSubmit, setFieldValue, values }) => {
@@ -137,6 +144,11 @@ function BasicInfo({ handleNext }) {
           <>
             <div>
               <Toaster />
+              {loading && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+                  <ClipLoader size={50} color={"#123abc"} loading={loading} />
+                </div>
+              )}
               <Form onSubmit={handleSubmit}>
                 <div className="sm:grid sm:grid-cols-2 gap-7 flex flex-col mx-7 mt-9">
                   {basic.map((val, i) => {
@@ -148,6 +160,7 @@ function BasicInfo({ handleNext }) {
                             name={val.name}
                             type={val.type}
                             placeholder={val.placeholder}
+                            autoComplete="off"
                             className="outline-blue-200 px-3  border border-gray-300 h-12 w-full rounded-xl"
                             onChange={(e) => {
                               setFieldValue(val.name, e.target.value);
@@ -169,6 +182,7 @@ function BasicInfo({ handleNext }) {
                               name={val.name}
                               type={val.type}
                               placeholder={val.placeholder}
+                              autoComplete="off"
                               className="outline-blue-200 px-3  border border-gray-300 h-12 w-full rounded-xl"
                               onChange={(e) => {
                                 setFieldValue(val.name, e.target.value);
@@ -190,6 +204,7 @@ function BasicInfo({ handleNext }) {
                             name={val.name}
                             as={val.type}
                             placeholder={val.placeholder}
+                            autoComplete="off"
                             className="outline-blue-200 px-3  border border-gray-300 h-12 w-full rounded-xl"
                             onChange={(e) => {
                               setFieldValue(val.name, e.target.value);
@@ -212,7 +227,47 @@ function BasicInfo({ handleNext }) {
                   })}
                 </div>
 
-                <div className=" flex justify-center mt-10 ">
+                <div className="text-left mt-8 mx-7 flex flex-col items-center  ">
+                    <div className=" font-semibold text-blue-900 py-2">
+                      Upload your CV
+                    </div>
+                    <div onClick={handleImageClick} className="sm:w-72 w-full cursor-pointer">
+                      {values.image ? (
+                        <img
+                          src={URL.createObjectURL(values.image)}
+                          className="h-72 sm:w-72 w-full border object-contain "
+                          alt="image"
+                          name="image"
+                        />
+                      ) : (
+                        <div className="h-72 sm:w-72 w-full border border-black border-dashed flex text-xl flex-col  justify-center text-center items-center text-gray-400 ">
+                          <div className="text-5xl">
+                            <IoCloudUploadSharp />
+                          </div>
+                          <div>Click to upload</div>
+                        </div>
+                      )}
+                      <input
+                       name="image"
+                       type="file"
+                       ref={inputRef}
+                       accept="image/*"
+                        
+                        onChange={(e) => {
+                          setFieldValue("image", e.target.files[0]);
+                        }}
+                        style={{ display:"none" }}
+                      />
+                      <ErrorMessage
+                        name="image"
+                     component={"div"}
+                    className="text-red-600"
+                         />
+                    </div>
+                  </div> 
+
+
+                {/* <div className=" flex justify-center mt-10 ">
                   {basic.map((val, i) => {
                    if (val.type === "file") {
                       return (
@@ -257,7 +312,8 @@ function BasicInfo({ handleNext }) {
                       );
                     }
                   })}
-                </div>
+                </div> */}
+                
 
                 <div className='  flex float-end mx-11   '>
                 <button type='submit' className=' sm:w-32 w-16  h-10 rounded-3xl relative top-14  text-center   text-white bg-ternary'>

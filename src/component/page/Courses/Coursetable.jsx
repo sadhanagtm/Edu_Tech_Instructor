@@ -18,7 +18,7 @@ function Courses() {
         console.log(row)
         return(
           <div >
-            <Link to={`/Courses/${row.id}`}>
+            <Link to={`/courses/${row.id}`}>
               {row.name}
             </Link>
           </div>
@@ -44,41 +44,11 @@ function Courses() {
     { name: "Discount", id:"6",sortable: true, selector: (row) => row.discount },
     { name: "Tags", id:"7", sortable: true, selector: (row) => row.tags },
 
-     {
-      name: "Action",
-       cell: (row) => (
-         <div className=" flex items-center justify-center gap-4 text-xl ">
-          <Link to={'/editform'} state={{
-            id:row.id
-          }}>
-           <button
-             className="  " 
-            
-             id={row.id}
-           >
-            <MdModeEdit />
-           </button>
-           </Link>
-           
 
-           <button
-
-on onClick={()=>setShow(true)} 
-             className="  " 
-            
-             id={row.id}
-           >
-            <FaMessage className="h-4 w-4" />
-           </button>
-           {show && <Replybox onClose={()=>setShow(false)}/>}
-
-         </div>
-       ),
-      selector: (row) => row.action,
-     },
   ];
 
   const [Course, setcourse] = useState([]);
+  const [Syllabus,setsyllabus]=useState([])
   const [filter, setFilter] = useState([]);
   const [query, setQuery] = useState('');
 
@@ -90,6 +60,7 @@ on onClick={()=>setShow(true)}
         .then((res) => {
           console.log(res);
           setcourse([...res.data.result]);
+          setsyllabus([...res.data.result.syllabus])
           setFilter([...res.data.result]);          
 
         })
@@ -105,11 +76,7 @@ on onClick={()=>setShow(true)}
     getdata();
   }, []);
 
-  const data = [ ];
-
-  const handleEdit = () => {
-  
-  };
+ 
  
 
   console.log(Course);
@@ -131,20 +98,13 @@ setQuery(getSearch);
   }
 
   return (
-    <div className=" lg:ml-60">
     
-    <div className=" mt-24">
-        <input type="text" name="name" value={query} className=" border-2 border-gray-700 mx-3 sm:w-64 pl-3 h-8 rounded-xl outline-none" onChange={(e)=>handlesearch(e)} placeholder="Search here"/>
-      </div>
-
-
-     <Link to={"/Addcourse"}>
-      <div className="  top-24 lg:right-10 right-4 absolute">
-        <button className=" h-8 lg:h-10 w-24 bg-red-700 shadow-2xl text-white text-lg font-semibold  rounded-md ">Add New</button>
-      </div>
-     </Link>
+    <div className=" lg:ml-60 mt-16">
+    
+   
 
       {Course && <Table data={Course} columns={columns} />}
+      {console.log(Syllabus,'this is syllabus') }
       
     </div>
   );

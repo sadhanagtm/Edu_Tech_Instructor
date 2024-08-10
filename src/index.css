@@ -5,3 +5,13 @@
 .jodit-wysiwyg{
     height: 350px !important;
 }
+.font{
+    font-family: "Noto Serif", serif;
+}
+.prifont{
+    font-family: "Oleo Script", system-ui;
+}
+
+.sefont{
+    font-family: "Merienda";
+}

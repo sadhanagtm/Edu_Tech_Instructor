@@ -40,10 +40,10 @@ function Replybox({onClose}) {
      >
 {({ handleSubmit, setFieldValue, values }) => {
   return (
-   <div ref={divRef} onClick={closeBox} className=' fixed inset-0 bg-opacity-30 backdrop-blur-sm '>
+   <div ref={divRef} onClick={closeBox} className=' fixed inset-0 z-10 bg-opacity-30 backdrop-blur-sm '>
         <div  className='  mt-56 flex flex-col justify-center items-center lg:ml-20  w-full   '>
        
-        <Form onSubmit={handleSubmit} className='bg-zinc-100 shadow-2xl sm:h-[340px] h-[300px]    lg:ml-28 rounded-2xl'>
+        <Form onSubmit={handleSubmit} className='bg-zinc-100 shadow-2xl  sm:h-[340px] h-[300px]    lg:ml-28 rounded-2xl'>
             <div>
             <button onClick={onClose} className='flex float-end  bg-zinc-200 w-9 h-9  text-center  justify-center items-center rounded-full my-3 mx-4 hover:bg-zinc-300'><RxCross2 className='text-2xl text-center ' /></button>
             </div>

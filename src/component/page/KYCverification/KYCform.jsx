@@ -7,8 +7,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Basicinfo from '../KYCverification/BasicInfo';
 import Addreess from '../KYCverification/Addreess';
-import LegalInfo from '../KYCverification/LegalDoc';
-import LegalDoc from '../KYCverification/LegalInfo';
+import LegalInfo from '../KYCverification/LegalInfo';
+import LegalDoc from '../KYCverification/LegalDoc';
 const steps = ['Basic Details',  'Address' ,'Legal Info','Legal DOC'];
 
  function KYCform() {
@@ -62,8 +62,8 @@ const steps = ['Basic Details',  'Address' ,'Legal Info','Legal DOC'];
   };
 
   return (
-    <Box  className="  lg:ml-56 flex flex-col justify-center w-full lg:w-10/12 bg-black lg:mt-20 mt-16   " sx={{ height:"40%" ,borderRadius:"10px",backgroundColor:"white",   boxShadow: "0px 0px 8px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" }}   >
-      <Stepper className='  lg:rounded-t-lg  bg-stone-300  text-white  p-4 h-16 ' activeStep={activeStep}>
+    <Box  className="  lg:ml-52 flex flex-col justify-center w-full lg:w-10/12 bg-black lg:mt-16 mt-20   " sx={{ height:"40%" ,borderRadius:"10px",backgroundColor:"white",   boxShadow: "0px 0px 8px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" }}   >
+      <Stepper className='  lg:rounded-t-lg  bg-stone-300  text-white  sm:p-4  h-16 ' activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
@@ -123,14 +123,14 @@ const steps = ['Basic Details',  'Address' ,'Legal Info','Legal DOC'];
                 Skip
               </Button>
             )}
-
-            {/* <Button onClick={handleNext} 
+       
+            <Button onClick={handleNext} 
              sx={{ h:8, color:"black" , borderRadius:"20px", bgcolor:"#68428A" ,mx:8,mb:3  }}
             >
 
              
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button> */}
+            </Button>
 
             
           </Box>

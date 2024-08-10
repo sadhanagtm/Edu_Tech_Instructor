@@ -1,6 +1,6 @@
 import axios from "axios"; 
-const axiosinstance=axios.create({
-    baseURL:"http://192.168.1.106:8080"
+const Privateaxios=axios.create({
+    baseURL:"http://192.168.1.95:8080"
     
 })
 axiosinstance.defaults.headers.common['Authorization']="Bearer "+localStorage.getItem("token")
@@ -12,4 +12,4 @@ axiosinstance.interceptors.request.use(
     (error)=>Promise.reject(error)
     
 )
-export default axiosinstance
+export default Privateaxios;

@@ -22,7 +22,7 @@ export default {
    '120':"30rem"
       }
     },
-
+ 
    
   },
   plugins: [],

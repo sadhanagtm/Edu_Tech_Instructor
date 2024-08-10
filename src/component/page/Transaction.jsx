@@ -94,7 +94,7 @@ setQuery(getSearch);
   return (
     <div className="lg:ml-60 mt-20">
     
-    <div className=" mt-24 mx-3">
+    <div className=" mt-28 mx-3">
         <input type="text" name="name" value={query} className=" border-2 border-gray-700 outline-none  rounded-xl sm:w-64 pl-3 h-8" onChange={(e)=>handlesearch(e)} placeholder="Search here"/>
       </div>
 

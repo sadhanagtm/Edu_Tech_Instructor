@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { IoMdRocket } from "react-icons/io";
-import { FaRocket } from "react-icons/fa6";
+import { FaLock, FaRocket } from "react-icons/fa6";
 import { number } from "yup";
 import axios from "../../Hoc/Axios";
 import {Link, useNavigate } from "react-router-dom";
 import toast,{ Toaster } from "react-hot-toast";
+import registerimg from '../../assets/registration.svg'
 import * as Yup from "yup";
+import { IoEyeOutline } from "react-icons/io5";
+import { BsEyeSlashFill } from "react-icons/bs";
 
 const schema = Yup.object().shape({
   firstName: Yup.string()
     .required("This field is required"),
     
     
-    lasttName: Yup.string()
+    lastName: Yup.string()
     .required("This field is required"),
 
     phone:Yup.string()
@@ -28,7 +31,7 @@ const schema = Yup.object().shape({
   .required("This field is required"),
 
   password: Yup.string()
-        .min(8, "Password must be 8 characters at minimum")
+        .min(5, "Password must be 5 characters at minimum")
         .required("Password is required")
         // .matches(
           // /[!@#$%^&(),.{}|<>]/,
@@ -37,32 +40,26 @@ const schema = Yup.object().shape({
         //  .matches(/[A-Z]/,"Password must contain at one uppercase letter ")
         //  .matches(/[a-z]/,"Password must contain at one lowercase letter ")
 
-
-
 });
 function Registration() {
   const Navigate=useNavigate()
+  const[password,setPassword]=useState("")
+  const[visible,setVisible]=useState(false)
+  const[loading,setLoading]=useState(false)
   
   return (
     <div className="sm:h-screen  w-full  box lg:flex ">
       <Toaster />
      
-      <div className=" text-white  lg:w-2/4 s sm:m-auto  flex flex-col justify-center items-center ">
-        <div className="flex gap-2 mt-4 sm:mt-24 lg:mt-0">
-        <div className="sm:text-4xl text-2xl font-semibold pt-4  "> Welcome to</div>
-        <div className=" animate-bounce mt-5   ">
-        <IoMdRocket className="h-8 w-8"/>
-        </div>
-        </div>
+      <div className=" mx-2 py-3 sm:py-4 lg:py-3  lg:flex lg:items-center">
        
-     <div>
-      <img src="/src/image/Lopho.png" className="w-48 sm:h-14 h-12 sm:mt-3"/>
-     </div>
+      <img src={registerimg} className="sm:h-96 sm:mx-auto  "/>
+    
         
        </div>
 
 <div className="w-full  ">
-      <div className=" bg-gray-100 h-fit sm:h-100 mx-3 sm:mx-8 sm:mt-20     rounded-xl   relative bottom-3  lg:top-5 lg:right-10">
+      <div className=" bg-gray-100 h-fit  mx-3 sm:mx-8 sm:mt-20   rounded-xl   relative bottom-3  lg:top-5 lg:right-3">
         <div className=" flex justify-center mt-9 sm:pt-8 pt-6 sm:text-4xl text-2xl font-semibold">
           Registration Form
         </div>
@@ -79,25 +76,29 @@ function Registration() {
           }}
           validationSchema={schema}
           onSubmit={(values) => {
+            setLoading(true)
             try {
         
               axios
-                .post("/instructor/auth/register", values)
+                .post("/user/auth/register/instructor/user", values)
                 .then((res) => {
                   
                   console.log("user data",res);
                    toast.success("Register Successfully")
             
                    Navigate("/login")
+                   setLoading(false)
                 })
                 .catch((error) => {
                   console.log(error);
                   toast.error("something went wrong")
+                  setLoading(false)
 
                   
                 });
             } catch (error) {
               console.log(error);
+              setLoading(false)
             }
          }}
             
@@ -110,7 +111,14 @@ function Registration() {
           <Form
           // key={i}
           onSubmit={handleSubmit}
+          
           className=" sm:grid sm:grid-cols-2 gap-5 flex flex-col mt-6 sm:mt-10 ">
+            <Toaster />
+              {loading && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+                  <ClipLoader size={50} color={"#123abc"} loading={loading} />
+                </div>
+              )}
            
             <div className="flex flex-col">
             <input
@@ -173,28 +181,34 @@ function Registration() {
                          setFieldValue("lastName",e.target.value)
                        }}
                      />
-                     <ErrorMessage name="firstName" component={"div"} className="text-red-600" />
+                     <ErrorMessage name="lastName" component={"div"} className="text-red-600" />
                       </div>
 
 
-                     <div className="flex flex-col">
-                     <input
-                       name="password"
-                       type="password"
-                       placeholder=" Password "
-                       className="outline-blue-200 px-3  border-2 border-gray-200 h-12 w-full"
-                       onChange={(e)=>{
-                         setFieldValue("password",e.target.value)
-                       }}
-                     />
-                    <ErrorMessage name="password" component={"div"} className="text-red-600" />
-                    </div>
-
+<div className="flex flex-col ">
+                      <div className=" flex">
+              <input  
+                name="password"
+                id="password"
+                type={visible?"text":"password"} 
+                autoComplete="off"
+                placeholder="Password"
+                className="h-12 w-full  outline-none  border-2  px-3 "
+                onChange={(e) => {
+                    setFieldValue("password", e.target.value);
+                  }}
+              />
+              <button onClick={()=>setVisible(!visible)} className="h-12 border-2   ">{visible?<IoEyeOutline/>:<BsEyeSlashFill/>}
+              </button>
+              </div>
+              
+               <ErrorMessage name="password" component={"div"} className="text-red-600" />
+               </div>
                  <div className="flex flex-col" >
                     <input
                        name="address"
                        type="text"
-                       placeholder=" Address "
+                       placeholder="Address "
                        className="outline-blue-200 px-3  border-2 border-gray-200 h-12 w-full"
                        onChange={(e)=>{
                          setFieldValue("address",e.target.value)
@@ -209,10 +223,7 @@ function Registration() {
             value={"Register"}
             className="font-semibold sm:h-12 h-10 w-36 mb-5 bg-primary   text-white text-center rounded-2xl cursor-pointer focus:bg-green-800"
            
-            />
-
-            
-            
+            /> 
           </Form>
           </div>
           );
@@ -221,9 +232,6 @@ function Registration() {
         </Formik>
       </div>
       </div>
-
-
-
 </div>
 
 
